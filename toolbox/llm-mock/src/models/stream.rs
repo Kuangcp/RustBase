@@ -13,6 +13,10 @@ impl From<SseEvent> for Result<Event, Infallible> {
     }
 }
 
+pub fn create_done_event() -> Result<Event, Infallible> {
+    Ok(Event::default().data("[DONE]"))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -104,7 +108,6 @@ mod tests {
             }],
         };
 
-        // Test that the chunk can be serialized to JSON correctly
         let json = serde_json::to_string(&chunk).unwrap();
         let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
         assert_eq!(parsed["id"], "json-test-id");
@@ -114,6 +117,12 @@ mod tests {
 
         let sse_event = SseEvent(chunk);
         let result: Result<Event, Infallible> = sse_event.into();
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_create_done_event() {
+        let result = create_done_event();
         assert!(result.is_ok());
     }
 }
