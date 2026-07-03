@@ -21,6 +21,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .route("/v1/models", get(routes::models::list_models))
         .route("/v1/embeddings", post(routes::embeddings::create_embedding))
         .route("/v1/chat/completions", post(routes::chat::chat_completions))
+        .route("/v1/completions", post(routes::completions::text_completions))
         .with_state(app_state.clone());
 
     let addr = format!(
