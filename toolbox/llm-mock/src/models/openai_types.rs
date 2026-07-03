@@ -64,14 +64,14 @@ pub struct Delta {
     pub content: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Model {
     pub id: String,
     pub object: String,
     pub owned_by: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ModelList {
     pub data: Vec<Model>,
 }

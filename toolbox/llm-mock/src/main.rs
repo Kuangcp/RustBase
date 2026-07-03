@@ -1,13 +1,39 @@
 mod config;
 mod error;
-mod models;
-mod routes;
+pub mod models;
+pub mod routes;
 
+use axum::{routing::get, Router};
 use config::Config;
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config = Config::load("config.toml")?;
-    println!("LLM Mock Server starting on {}:{}", config.server.host, config.server.port);
+    let response_content = config.load_response_content()?;
+
+    let app_state = Arc::new(AppState {
+        config,
+        response_content,
+    });
+
+    let app = Router::new()
+        .route("/v1/models", get(routes::models::list_models))
+        .with_state(app_state.clone());
+
+    let addr = format!(
+        "{}:{}",
+        app_state.config.server.host, app_state.config.server.port
+    );
+    println!("Listening on {}", addr);
+
+    let listener = tokio::net::TcpListener::bind(&addr).await?;
+    axum::serve(listener, app).await?;
+
     Ok(())
+}
+
+struct AppState {
+    config: Config,
+    response_content: String,
 }
