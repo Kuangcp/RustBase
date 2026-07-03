@@ -29,6 +29,40 @@ cargo build --release
 
 Binary output: `target/release/llm-mock`
 
+## Cross-Compile
+
+```bash
+# Add targets
+rustup target add x86_64-pc-windows-gnu
+rustup target add x86_64-apple-darwin
+rustup target add aarch64-apple-darwin
+
+# Build for Windows (requires mingw-w64)
+cargo build --release --target x86_64-pc-windows-gnu
+
+# Build for Mac (requires osxcross)
+cargo build --release --target x86_64-apple-darwin
+```
+
+## CI/CD
+
+GitHub Actions 自动构建多平台产物：
+
+- 推送代码：构建并上传 artifacts
+- 推送 `v*` 标签：自动创建 Release 并上传二进制文件
+
+```bash
+# 创建 Release
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+产物列表：
+- `llm-mock-linux-amd64` - Linux x86_64
+- `llm-mock-windows-amd64.exe` - Windows x86_64
+- `llm-mock-macos-amd64` - macOS Intel
+- `llm-mock-macos-arm64` - macOS Apple Silicon
+
 ## Configuration
 
 Edit `config.toml`:
