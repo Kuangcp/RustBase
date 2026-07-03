@@ -1,4 +1,7 @@
 mod config;
+mod error;
+mod models;
+mod routes;
 
 use config::Config;
 
