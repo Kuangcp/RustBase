@@ -36,7 +36,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-struct AppState {
+pub struct AppState {
     config: Config,
     response_content: String,
 }

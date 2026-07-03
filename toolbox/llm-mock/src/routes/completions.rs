@@ -8,7 +8,6 @@ use tokio::sync::mpsc;
 use tokio_stream::wrappers::ReceiverStream;
 
 use crate::error::AppError;
-use crate::models::openai_types::*;
 use crate::models::stream::create_done_event;
 use crate::AppState;
 
