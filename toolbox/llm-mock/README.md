@@ -17,6 +17,18 @@ cargo run
 
 Server starts on `0.0.0.0:8080` by default.
 
+## Build
+
+```bash
+# Debug build
+cargo build
+
+# Release build (optimized)
+cargo build --release
+```
+
+Binary output: `target/release/llm-mock`
+
 ## Configuration
 
 Edit `config.toml`:
