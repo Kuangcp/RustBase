@@ -3,7 +3,7 @@ mod error;
 pub mod models;
 pub mod routes;
 
-use axum::{routing::get, Router};
+use axum::{routing::{get, post}, Router};
 use config::Config;
 use std::sync::Arc;
 
@@ -19,6 +19,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let app = Router::new()
         .route("/v1/models", get(routes::models::list_models))
+        .route("/v1/embeddings", post(routes::embeddings::create_embedding))
         .with_state(app_state.clone());
 
     let addr = format!(
